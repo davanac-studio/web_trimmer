@@ -52,6 +52,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
 
         /* Style des icônes avec centrage */
@@ -66,13 +67,9 @@
             margin: 0 10px;
         }
 
-        /* Style de l'indication de la période marquée avec case grise en relief */
-        #markedDuration {
-            font-weight: bold;
-            background-color: #f2f2f2; /* Couleur de fond grise */
-            padding: 5px 10px; /* Espacement intérieur pour créer une case */
-            border-radius: 5px; /* Coins arrondis */
-            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); /* Ombre interne */
+        /* Style de l'icône pour la période marquée */
+        #markedIcon {
+            font-size: 24px; /* Taille de l'icône */
         }
 
         /* Style pour le bouton "Réinitialiser" avec couleur inchangée */
@@ -91,6 +88,31 @@
         /* Style pour le bouton "Importer" */
         #importButton {
             margin-right: 10px; /* Espacement du bouton "Importer" à droite */
+        }
+
+        /* Info-bulle pour les boutons */
+        .tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            border-radius: 4px;
+            padding: 5px;
+            font-size: 12px; /* Taille réduite pour les info-bulles */
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+            pointer-events: none;
+        }
+
+        .button:hover .tooltip {
+            opacity: 1;
+        }
+
+        /* Style pour les info-bulles sur une ligne */
+        .tooltip-inline {
+            white-space: nowrap; /* Empêcher le passage à la ligne */
         }
 
         /* Media query pour écran plus petit */
@@ -122,20 +144,21 @@
 
             <label for="videoInput" class="button" id="importButton">
                 <i class="icon fas fa-upload"></i>
+                <div class="tooltip tooltip-inline">Importer une vidéo</div>
             </label>
 
             <!-- Bouton "In" avec icône et temps marqué -->
-            <button id="markIn" class="button"><i class="icon fas fa-arrow-right"></i> In <span class="time-marker" id="inTime">0:00</span></button>
+            <button id="markIn" class="button"><i class="icon fas fa-arrow-right"></i> In <span class="time-marker" id="inTime">0:00</span><div class="tooltip tooltip-inline">Marquer "In"</div></button>
 
             <!-- Bouton "Out" avec icône et temps marqué -->
-            <button id="markOut" class="button"><i class="icon fas fa-arrow-left"></i> Out <span class="time-marker" id="outTime">0:00</span></button>
+            <button id="markOut" class="button"><i class="icon fas fa-arrow-left"></i> Out <span class="time-marker" id="outTime">0:00</span><div class="tooltip tooltip-inline">Marquer "Out"</div></button>
 
             <!-- Bouton "Réinitialiser" avec icône -->
-            <button id="resetButton" class="button"><i class="icon fas fa-undo"></i></button>
+            <button id="resetButton" class="button"><i class="icon fas fa-undo"></i><div class="tooltip tooltip-inline">Réinitialiser</div></button>
         </div>
 
-        <!-- Indication de la période marquée avec case grise en relief -->
-        <div>Période marquée : <span id="markedDuration">0:00</span></div>
+        <!-- Icône pour la période marquée -->
+        <div><i id="markedIcon" class="fas fa-clock"></i> <span id="markedDuration">00:00</span></div>
     </div>
 
     <script>
@@ -145,6 +168,7 @@
         const markOutButton = document.getElementById('markOut');
         const inTimeSpan = document.getElementById('inTime');
         const outTimeSpan = document.getElementById('outTime');
+        const markedIcon = document.getElementById('markedIcon');
         const markedDurationSpan = document.getElementById('markedDuration');
         const resetButton = document.getElementById('resetButton');
         let inTime = 0;
