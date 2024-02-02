@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marqueur de Vidéo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Roboto, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f2f2f2;
+        }
+
+        #video-container {
+            width: 800px;
+            max-width: 100%; /* La largeur maximale est de 100% de la largeur de la fenêtre */
+            height: 450px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        video {
+            width: 100%; /* La vidéo occupe toute la largeur du conteneur */
+            height: 100%; /* La vidéo occupe toute la hauteur du conteneur */
+        }
+
+        #controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Style des boutons arrondis */
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+            border-radius: 25px; /* Boutons arrondis */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Style des icônes avec centrage */
+        .icon {
+            margin-right: 5px;
+            vertical-align: middle; /* Centrage vertical */
+        }
+
+        /* Style des marqueurs de temps */
+        .time-marker {
+            font-weight: bold;
+            margin: 0 10px;
+        }
+
+        /* Style de l'indication de la période marquée */
+        #markedDuration {
+            font-weight: bold;
+        }
+
+        /* Style pour le bouton "Réinitialiser" avec couleur inchangée */
+        #resetButton {
+            background-color: #dc3545;
+        }
+
+        /* Conteneur pour aligner les boutons sur une ligne */
+        #button-container {
+            display: flex;
+            flex-wrap: wrap; /* Les boutons passent à la ligne si l'espace est insuffisant */
+            justify-content: center; /* Centrer les boutons horizontalement */
+            width: 100%;
+        }
+
+        /* Style pour le bouton "Importer" */
+        #importButton {
+            margin-right: 10px; /* Espacement du bouton "Importer" à droite */
+        }
+
+        /* Media query pour écran plus petit */
+        @media screen and (max-width: 600px) {
+            #button-container {
+                flex-direction: column; /* Afficher les boutons en colonne */
+                align-items: center; /* Centrer les boutons verticalement */
+            }
+
+            .button {
+                width: 100%; /* Les boutons occupent toute la largeur */
+                margin: 5px 0; /* Espacement entre les boutons */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="video-container">
+        <video id="video" controls>
+            <!-- La vidéo sera affichée ici si elle est chargée -->
+        </video>
+    </div>
+
+    <div id="controls">
+        <!-- Conteneur pour aligner les boutons sur une ligne -->
+        <div id="button-container">
+            <!-- Bouton pour importer la vidéo avec icône -->
+            <input type="file" id="videoInput" accept="video/mp4, video/webm, video/quicktime, video/x-msvideo, video/x-flv, video/x-matroska, application/mxf, video/mxf, video/vnd.mxf" style="display: none;">
+
+            <label for="videoInput" class="button" id="importButton">
+                <i class="icon fas fa-upload"></i>
+            </label>
+
+            <!-- Bouton "In" avec icône et temps marqué -->
+            <button id="markIn" class="button"><i class="icon fas fa-arrow-right"></i> In <span class="time-marker" id="inTime">0:00</span></button>
+
+            <!-- Bouton "Out" avec icône et temps marqué -->
+            <button id="markOut" class="button"><i class="icon fas fa-arrow-left"></i> Out <span class="time-marker" id="outTime">0:00</span></button>
+
+            <!-- Bouton "Réinitialiser" avec icône -->
+            <button id="resetButton" class="button"><i class="icon fas fa-undo"></i></button>
+        </div>
+
+        <!-- Indication de la période marquée -->
+        <div>Période marquée: <span id="markedDuration">0:00</span></div>
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const videoInput = document.getElementById('videoInput');
+        const markInButton = document.getElementById('markIn');
+        const markOutButton = document.getElementById('markOut');
+        const inTimeSpan = document.getElementById('inTime');
+        const outTimeSpan = document.getElementById('outTime');
+        const markedDurationSpan = document.getElementById('markedDuration');
+        const resetButton = document.getElementById('resetButton');
+        let inTime = 0;
+        let outTime = 0;
+
+        // Chargement de la vidéo lorsqu'un fichier est sélectionné
+        videoInput.addEventListener('change', () => {
+            const file = videoInput.files[0];
+            if (file) {
+                const objectURL = URL.createObjectURL(file);
+                video.src = objectURL;
+                video.load();
+                inTime = 0;
+                outTime = video.duration;
+                updateMarkedDuration();
+            }
+        });
+
+        // Marquer "In"
+        markInButton.addEventListener('click', () => {
+            inTime = video.currentTime;
+            inTimeSpan.textContent = formatTime(inTime);
+            updateMarkedDuration();
+        });
+
+        // Marquer "Out"
+        markOutButton.addEventListener('click', () => {
+            outTime = video.currentTime;
+            outTimeSpan.textContent = formatTime(outTime);
+            updateMarkedDuration();
+        });
+
+        // Réinitialiser les marqueurs et la vidéo
+        resetButton.addEventListener('click', () => {
+            inTime = 0;
+            outTime = video.duration;
+            inTimeSpan.textContent = '0:00';
+            outTimeSpan.textContent = '0:00';
+            updateMarkedDuration();
+            video.src = '';
+        });
+
+        // Mise à jour de la période marquée
+        function updateMarkedDuration() {
+            const duration = outTime - inTime;
+            markedDurationSpan.textContent = formatTime(duration);
+        }
+
+        // Formatage du temps en mm:ss
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            seconds = Math.floor(seconds % 60);
+            return `${minutes}:${String(seconds).padStart(2, '0')}`;
+        }
+    </script>
+</body>
+</html>
