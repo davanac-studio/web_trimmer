@@ -52,29 +52,28 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            transition: background-color 0.3s ease-in-out;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
 
         .button:hover {
             background-color: #0056b3;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
         }
 
         .icon {
             margin-right: 5px;
             vertical-align: middle;
-        }
-
-        .zoom {
             transition: transform 0.3s ease-in-out;
         }
 
-        .zoomed {
+        .button:hover .icon {
             transform: scale(1.2);
         }
 
         .time-marker {
             font-weight: bold;
-            margin: 0 10px;
+            margin: 0 5px; /* Ajustement de la marge entre l'icône et le texte */
         }
 
         #markedIcon {
@@ -88,11 +87,13 @@
 
         #resetButton {
             background-color: #dc3545;
-            transition: background-color 0.3s ease-in-out;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
 
         #resetButton:hover {
             background-color: #c82333;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
         }
 
         #button-container {
@@ -190,9 +191,9 @@
                 <div class="tooltip tooltip-inline">Importer une vidéo</div>
             </label>
 
-            <button id="markIn" class="button"><i class="icon fas fa-arrow-right zoom"></i> In <span class="time-marker" id="inTime">0:00</span><div class="tooltip tooltip-inline">Marquer "In"</div></button>
+            <button id="markIn" class="button"><i class="icon fas fa-arrow-right zoom"></i><span class="time-marker" id="inTime"> In 0:00</span><div class="tooltip tooltip-inline">Marquer "In"</div></button>
 
-            <button id="markOut" class="button"><i class="icon fas fa-arrow-left zoom"></i> Out <span class="time-marker" id="outTime">0:00</span><div class="tooltip tooltip-inline">Marquer "Out"</div></button>
+            <button id="markOut" class="button"><i class="icon fas fa-arrow-left zoom"></i><span class="time-marker" id="outTime"> Out 0:00</span><div class="tooltip tooltip-inline">Marquer "Out"</div></button>
 
             <button id="resetButton" class="button"><i class="icon fas fa-undo"></i><div class="tooltip tooltip-inline">Réinitialiser</div></button>
         </div>
@@ -229,7 +230,7 @@
 
         markInButton.addEventListener('click', () => {
             inTime = video.currentTime;
-            inTimeSpan.textContent = formatTime(inTime);
+            inTimeSpan.textContent = ` In ${formatTime(inTime)}`;
             updateMarkedDuration();
             markInButton.querySelector('.icon').classList.add('zoomed');
             setTimeout(() => {
@@ -239,7 +240,7 @@
 
         markOutButton.addEventListener('click', () => {
             outTime = video.currentTime;
-            outTimeSpan.textContent = formatTime(outTime);
+            outTimeSpan.textContent = ` Out ${formatTime(outTime)}`;
             updateMarkedDuration();
             markOutButton.querySelector('.icon').classList.add('zoomed');
             setTimeout(() => {
@@ -249,9 +250,9 @@
 
         resetButton.addEventListener('click', () => {
             inTime = 0;
-            outTime = video.duration;
-            inTimeSpan.textContent = '0:00';
-            outTimeSpan.textContent = '0:00';
+            outTime = 0; // Mettre outTime à zéro pour réinitialiser la période marquée
+            inTimeSpan.textContent = ' In 0:00';
+            outTimeSpan.textContent = ' Out 0:00';
             updateMarkedDuration();
         });
 
