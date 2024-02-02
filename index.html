@@ -16,7 +16,7 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            background-color: #f2f2f2;
+            background-color: rgba(255, 255, 255, 0); /* Fond de page totalement transparent */
         }
 
         #video-container {
@@ -114,7 +114,7 @@
 
         .tooltip {
             position: absolute;
-            background-color: rgba(0, 0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.7);
             color: #fff;
             border-radius: 4px;
             padding: 5px;
@@ -179,7 +179,7 @@
             display: none;
             position: absolute;
             background-color: #fff;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0);
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             z-index: 1;
             min-width: 160px;
             border-radius: 4px;
@@ -202,28 +202,14 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
-
+        
         /* Styles pour la barre de contrôle vidéo responsive */
         video::-webkit-media-controls {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: rgba(0, 0, 0, 0);
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0); /* Fond transparent */
             border-radius: 5px;
             padding: 5px;
-        }
-
-        video::-webkit-media-controls-play-button {
-            display: none;
-        }
-
-        video::-webkit-media-controls-current-time-display,
-        video::-webkit-media-controls-time-remaining-display,
-        video::-webkit-media-controls-timeline,
-        video::-webkit-media-controls-mute-button,
-        video::-webkit-media-controls-volume-slider,
-        video::-webkit-media-controls-fullscreen-button {
-            display: block;
         }
 
         @media screen and (max-width: 600px) {
@@ -233,18 +219,6 @@
             }
 
             .button {
-                width: 100%;
-                margin: 5px 0;
-            }
-
-            video::-webkit-media-controls {
-                display: block;
-            }
-
-            video::-webkit-media-controls-timeline,
-            video::-webkit-media-controls-mute-button,
-            video::-webkit-media-controls-volume-slider,
-            video::-webkit-media-controls-fullscreen-button {
                 width: 100%;
                 margin: 5px 0;
             }
