@@ -15,7 +15,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 25vh;
+          
             background-color: rgba(255, 255, 255, 0); /* Fond de page totalement transparent */
         }
 
@@ -115,7 +115,7 @@
 
         .tooltip {
             position: absolute;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 1);
             color: #fff;
             border-radius: 4px;
             padding: 5px;
@@ -173,18 +173,18 @@
         /* Styles pour les boutons de ratio */
         .ratio-buttons {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 20px;
+            right: 20px;
             display: flex;
             flex-direction: column;
             align-items: flex-end;
         }
 
         .ratio-button {
-            width: 30px; /* Taille réduite */
-            height: 30px; /* Taille réduite */
+            width: 35px; /* Taille réduite */
+            height: 35px; /* Taille réduite */
             border-radius: 50%;
-            background-color: rgba(0, 0, 0, 0.3); /* Légèrement transparent et gris */
+            background-color: rgba(0, 0, 0, 0.5); /* Légèrement transparent et gris */
             color: #fff;
             display: flex;
             align-items: center;
@@ -196,18 +196,18 @@
 
         .ratio-button:hover {
             background-color: rgba(0.5, 0.5, 0.5, 1); /* Légèrement plus foncé au survol */
-            transform: scale(1.5);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+            transform: scale(1.25);
+            box-shadow: 0 0 10px rgba(0.5, 0.5, 0.5, 0.5);
         }
 
         .ratio-button span {
-            font-size: 10px; /* Réduction de la taille de la police */
+            font-size: 12px; /* Réduction de la taille de la police */
             font-weight: bold;
         }
 
         /* Fin des styles pour les boutons de ratio */
 
-        @media screen and (max-width: 600px) {
+        @media screen and (max-width: 100px) {
             #button-container {
                 flex-direction: column;
                 align-items: center;
@@ -215,13 +215,13 @@
 
             .button {
                 width: 100%;
-                margin: 5px 0;
+                margin: 10px 0;
             }
 
             .ratio-buttons {
                 top: auto;
                 right: 0;
-                bottom: 10px;
+                bottom: 20px;
                 align-items: flex-end;
                 flex-direction: row;
                 justify-content: flex-end;
