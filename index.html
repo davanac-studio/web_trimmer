@@ -29,6 +29,7 @@
             overflow: hidden;
             margin: 20px 0; /* Ajustement de l'espacement */
             border-radius: 10px;
+			background-color: #000000;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0);
             display: flex;
             justify-content: center;
@@ -37,11 +38,10 @@
         }
 
         video {
-            width: 100%;
-            max-height: 100%;
-            object-fit: cover;
-        }
-
+    object-fit: contain;
+    max-width: 100%;
+    max-height: 100%;
+}
         #controls {
             display: flex;
             flex-direction: column;
@@ -233,7 +233,8 @@
 </head>
 <body>
     <div id="video-container">
-        <video id="video" controls style="height: 450px;"></video>
+        <video id="video" controls style="height: 450px; object-fit: cover;"></video>
+
 
         <!-- Boutons de ratio au coin supérieur droit -->
         <div class="ratio-buttons">
@@ -263,117 +264,111 @@
 
     </div>
 
-    <script>
-        const video = document.getElementById('video');
-        const videoInput = document.getElementById('videoInput');
-        const markInButton = document.getElementById('markIn');
-        const markOutButton = document.getElementById('markOut');
-        const inTimeSpan = document.getElementById('inTime');
-        const outTimeSpan = document.getElementById('outTime');
-        const markedDurationText = document.getElementById('markedDurationText');
-        const resetButton = document.getElementById('resetButton');
-        const ratioButtons = document.querySelectorAll('.ratio-button');
-        let inTime = 0;
-        let outTime = 0;
+<script>
+    const video = document.getElementById('video');
+    const videoInput = document.getElementById('videoInput');
+    const markInButton = document.getElementById('markIn');
+    const markOutButton = document.getElementById('markOut');
+    const inTimeSpan = document.getElementById('inTime');
+    const outTimeSpan = document.getElementById('outTime');
+    const markedDurationText = document.getElementById('markedDurationText');
+    const resetButton = document.getElementById('resetButton');
+    const ratioButtons = document.querySelectorAll('.ratio-button');
+    let inTime = 0;
+    let outTime = 0;
 
-        videoInput.addEventListener('change', () => {
-            const file = videoInput.files[0];
-            if (file) {
-                const objectURL = URL.createObjectURL(file);
-                video.src = objectURL;
-                video.load();
-                inTime = 0;
-                outTime = video.duration;
-                updateMarkedDuration();
-
-                // Calcul de la largeur en fonction du ratio de la vidéo
-                const videoHeight = 450;
-                const videoRatio = video.videoWidth / video.videoHeight;
-                const videoWidth = videoHeight * videoRatio;
-
-                // Mise à jour de la taille du lecteur vidéo
-                videoContainer.style.height = `${videoHeight}px`;
-                video.style.height = `${videoHeight}px`;
-                videoContainer.style.width = `${videoWidth}px`;
-            }
-        });
-
-        markInButton.addEventListener('click', () => {
-            inTime = video.currentTime;
-            inTimeSpan.textContent = ` In ${formatTime(inTime)}`;
-            updateMarkedDuration();
-            markInButton.querySelector('.icon').classList.add('zoomed');
-            setTimeout(() => {
-                markInButton.querySelector('.icon').classList.remove('zoomed');
-            }, 300);
-        });
-
-        markOutButton.addEventListener('click', () => {
-            outTime = video.currentTime;
-            outTimeSpan.textContent = ` Out ${formatTime(outTime)}`;
-            updateMarkedDuration();
-            markOutButton.querySelector('.icon').classList.add('zoomed');
-            setTimeout(() => {
-                markOutButton.querySelector('.icon').classList.remove('zoomed');
-            }, 300);
-        });
-
-        resetButton.addEventListener('click', () => {
+    videoInput.addEventListener('change', () => {
+        const file = videoInput.files[0];
+        if (file) {
+            const objectURL = URL.createObjectURL(file);
+            video.src = objectURL;
+            video.load();
             inTime = 0;
-            outTime = 0;
-            inTimeSpan.textContent = ' In 0';
-            inTimeSpan.textContent = ' In 0';
-            outTimeSpan.textContent = ' Out 0' ;
+            outTime = video.duration;
             updateMarkedDuration();
+        }
+    });
+
+    markInButton.addEventListener('click', () => {
+        inTime = video.currentTime;
+        inTimeSpan.textContent = ` In ${formatTime(inTime)}`;
+        updateMarkedDuration();
+        markInButton.querySelector('.icon').classList.add('zoomed');
+        setTimeout(() => {
+            markInButton.querySelector('.icon').classList.remove('zoomed');
+        }, 300);
+    });
+
+    markOutButton.addEventListener('click', () => {
+        outTime = video.currentTime;
+        outTimeSpan.textContent = ` Out ${formatTime(outTime)}`;
+        updateMarkedDuration();
+        markOutButton.querySelector('.icon').classList.add('zoomed');
+        setTimeout(() => {
+            markOutButton.querySelector('.icon').classList.remove('zoomed');
+        }, 300);
+    });
+
+    resetButton.addEventListener('click', () => {
+        inTime = 0;
+        outTime = 0;
+        inTimeSpan.textContent = ' In 0';
+        outTimeSpan.textContent = ' Out 0';
+        updateMarkedDuration();
+    });
+
+    // Gestionnaire d'événements pour les boutons de ratio
+    ratioButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            adjustVideoContainerSize(button.id);
         });
+    });
 
-        // Gestionnaire d'événements pour les boutons de ratio
-        ratioButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                adjustVideoContainerSize(button.id);
-            });
-        });
+    // Fonction pour ajuster la taille du conteneur vidéo en fonction du ratio sélectionné sans changer la taille de la vidéo
+    function adjustVideoContainerSize(ratioId) {
+        const videoContainer = document.getElementById('video-container');
+        const aspectRatios = {
+            'ratio4_5': 4 / 5,
+            'ratio1_1': 1 / 1,
+            'ratio9_16': 9 / 16,
+            'ratio16_9': 16 / 9
+        };
+        const ratio = aspectRatios[ratioId];
+        const maxWidth = 800; // Largeur maximale du lecteur vidéo
+        const maxHeight = 450; // Hauteur maximale du lecteur vidéo
+        let newWidth = maxWidth;
+        let newHeight = newWidth / ratio;
 
-        // Fonction pour ajuster la taille du conteneur vidéo en fonction du ratio sélectionné
-        function adjustVideoContainerSize(ratioId) {
-            const fixedHeight = 450;
-            let newWidth;
-
-            switch (ratioId) {
-                case 'ratio4_5':
-                    newWidth = fixedHeight * (4 / 5);
-                    break;
-                case 'ratio1_1':
-                    newWidth = fixedHeight * (1 / 1) ;
-                    break;
-                case 'ratio9_16':
-                    newWidth = fixedHeight * (9 / 16);
-                    break;
-                case 'ratio16_9':
-                    newWidth = fixedHeight * (16 / 9); // Ajustement pour le ratio 16:9
-                    break;
-            }
-
-            const videoContainer = document.getElementById('video-container');
-            const video = document.getElementById('video');
-            videoContainer.style.height = `${fixedHeight}px`;
-            video.style.height = `${fixedHeight}px`;
-            videoContainer.style.width = `${newWidth}px`;
-
-            // Mettre à jour la barre de contrôle du lecteur vidéo
-            video.style.width = '100%';
+        // Si la nouvelle hauteur dépasse la hauteur maximale, recalculer la largeur
+        if (newHeight > maxHeight) {
+            newHeight = maxHeight;
+            newWidth = newHeight * ratio;
         }
 
-        // Fonction pour mettre à jour la durée marquée
-        function updateMarkedDuration() {
-            const duration = outTime - inTime;
-            markedDurationText.textContent = formatTime(duration);
-        }
+        videoContainer.style.width = `${newWidth}px`;
+        videoContainer.style.height = `${newHeight}px`;
+        videoContainer.style.overflow = 'hidden';
+        
+        // Assurer que la vidéo ne dépasse pas les dimensions maximales
+        video.style.maxWidth = `${maxWidth}px`;
+        video.style.maxHeight = `${maxHeight}px`;
+        video.style.width = 'auto';
+        video.style.height = 'auto';
+    }
 
-        // Fonction pour formater le temps en secondes
-function formatTime(seconds) {
-    return Math.floor(seconds).toString();
-}
-    </script>
+    // Fonction pour mettre à jour la durée marquée
+    function updateMarkedDuration() {
+        const duration = outTime - inTime;
+        markedDurationText.textContent = formatTime(duration);
+    }
+
+    // Fonction pour formater le temps en secondes
+    function formatTime(seconds) {
+        return Math.floor(seconds).toString();
+    }
+</script>
+
+
+
 </body>
 </html>
