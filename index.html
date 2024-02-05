@@ -24,7 +24,7 @@
         }
 
         #video-container {
-            width: 800px;
+            width: 640px;
             max-height: 100vh;
             overflow: hidden;
             margin: 10px 0;
@@ -207,6 +207,8 @@
             font-weight: bold;
         }
 
+
+
         @media screen and (max-width: 100px) {
             #button-container {
                 flex-direction: column;
@@ -231,7 +233,9 @@
 </head>
 <body>
     <div id="video-container">
-        <video id="video" controls style="height: 450px; object-fit: cover;"></video>
+        <video id="video" controls style="height: 360px; object-fit: cover;"></video>
+
+
 
         <div class="ratio-buttons">
             <div class="ratio-button" id="ratio4_5"><span>4:5</span></div>
@@ -330,8 +334,8 @@
             'ratio16_9': 16 / 9
         };
         const ratio = aspectRatios[ratioId];
-        const maxWidth = 800;
-        const maxHeight = 450; 
+        const maxWidth = 640;
+        const maxHeight = 360; 
         let newWidth = maxWidth;
         let newHeight = newWidth / ratio;
 
@@ -358,10 +362,13 @@
         markedDurationText.textContent = formatTime(duration);
     }
 
+
     function formatTime(seconds) {
         return Math.floor(seconds).toString();
     }
 </script>
+
+
 
 </body>
 </html>
