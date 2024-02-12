@@ -11,9 +11,11 @@
             margin: 0;
             padding: 0;
         }
-
         body {
-            font-family: Roboto, sans-serif;
+			
+            font-family: Helvetica, sans-serif;
+			font-size: 16px
+			font-weight: normal
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -21,35 +23,35 @@
             justify-content: flex-start;
             min-height: 100vh; 
             background-color: rgba(255, 255, 255, 0); 
+			
         }
-
         #video-container {
             width: 640px;
             max-height: 100vh;
             overflow: hidden;
             margin: 10px 0;
             border-radius: 10px;
-			background-color: #000000;
+            background-color: #000;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0);
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
         }
-
         video {
-    object-fit: contain;
-    max-width: 100%;
-    max-height: 100%;
-}
+            object-fit: contain;
+            max-width: 100%;
+            max-height: 100%;
+        }
         #controls {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-
         .button {
             padding: 8px 20px;
+			font-weight: bold;
+			font-size: 16px;
             background-color: #00a7e1;
             color: #fff;
             border: none;
@@ -59,120 +61,53 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+			user-select: text;
         }
-
         .button:hover {
             background-color: #021d49;
             transform: scale(1.1);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
         }
-
         .icon {
             margin-right: 5px;
-            vertical-align: middle;
-            transition: transform 0.2s ease-in-out;
         }
-
-        .button:hover .icon {
-            transform: scale(1.2);
-        }
-
         .time-marker {
             font-weight: bold;
             margin: 0 5px;
         }
-
-        #markedIcon {
-            font-size: 24px;
-            color: #777;
-            margin-right: 5px;
-            vertical-align: middle;
-            position: relative;
-            top: -2px;
-        }
-
         #resetButton {
             background-color: #e5174d;
-            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
         }
-
         #resetButton:hover {
             background-color: #b21445;
             transform: scale(1.1);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
         }
-
         #button-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             width: 100%;
         }
-
-        #importButton {
-            margin-right: 10px;
-        }
-
         .tooltip {
             position: absolute;
             background-color: rgba(0, 0, 0, 1);
             color: #fff;
             border-radius: 4px;
             padding: 5px;
-            font-size: 12px;
-            bottom: 100%; /* Ouvre le tooltip vers le haut */
+            font-size: 16px;
+            bottom: 100%;
             left: 50%;
             transform: translateX(-50%);
             opacity: 0;
-            transition: opacity 0.2s ease-in-out;
+            transition: opacity 0.2s;
             pointer-events: none;
         }
-
         .button:hover .tooltip {
             opacity: 1;
         }
-
-        .tooltip-inline {
-            white-space: nowrap;
-        }
-
-        #markedDuration {
-            background-color: #f2f2f2;
-            padding: 5px 10px;
-            border-radius: 5px;
-            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
-
-        #markedDurationText {
-            font-size: 18px;
-            font-weight: lighter;
-        }
-
-        #markedDurationTooltip {
-            position: absolute;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            border-radius: 4px;
-            padding: 5px;
-            font-size: 12px;
-            bottom: 100%; /* Ouvre le tooltip vers le haut */
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.2s ease-in-out;
-            pointer-events: none;
-        }
-
-        #markedDuration:hover #markedDurationTooltip {
-            opacity: 1;
-        }
-
- 
         .ratio-buttons {
             position: absolute;
             top: 20px;
@@ -181,10 +116,9 @@
             flex-direction: column;
             align-items: flex-end;
         }
-
         .ratio-button {
-            width: 35px; 
-            height: 35px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background-color: rgba(0, 0, 0, 0.5);
             color: #fff;
@@ -193,33 +127,22 @@
             justify-content: center;
             cursor: pointer;
             margin-bottom: 10px;
-            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
         }
-
         .ratio-button:hover {
-            background-color: rgba(0.5, 0.5, 0.5, 1); /* Légèrement plus foncé au survol */
+            background-color: rgba(0.5, 0.5, 0.5, 1);
             transform: scale(1.25);
             box-shadow: 0 0 10px rgba(0.5, 0.5, 0.5, 0.5);
         }
-
-        .ratio-button span {
-            font-size: 12px; /* Réduction de la taille de la police */
-            font-weight: bold;
-        }
-
-
-
         @media screen and (max-width: 100px) {
             #button-container {
                 flex-direction: column;
                 align-items: center;
             }
-
             .button {
                 width: 100%;
                 margin: 10px 0;
             }
-
             .ratio-buttons {
                 top: auto;
                 right: 0;
@@ -229,39 +152,38 @@
                 justify-content: flex-end;
             }
         }
+		
     </style>
 </head>
 <body>
     <div id="video-container">
+        <canvas id="inThumbnail" width="160" height="90" style="position: absolute; bottom: 65px; left: 10px;"></canvas>
+        <canvas id="outThumbnail" width="160" height="90" style="position: absolute; bottom: 65px; right: 10px;"></canvas>
         <video id="video" controls style="height: 360px; object-fit: cover;"></video>
-
-
-
         <div class="ratio-buttons">
             <div class="ratio-button" id="ratio4_5"><span>4:5</span></div>
             <div class="ratio-button" id="ratio1_1"><span>1:1</span></div>
             <div class="ratio-button" id="ratio9_16"><span>9:16</span></div>
             <div class="ratio-button" id="ratio16_9"><span>16:9</span></div>
         </div>
-
     </div>
 
     <div id="controls">
         <div id="button-container">
-            <input type="file" id="videoInput" accept="video/mp4, video/webm, video/quicktime, video/mov, video/x-msvideo, video/x-flv, video/x-matroska, application/mxf, video/mxf, video/vnd.mxf" style="display: none;">
-
+            <input type="file" id="videoInput" accept="video/*" style="display: none;">
             <label for="videoInput" class="button" id="importButton">
-                <i class="icon fas fa-upload"></i>
-                <div class="tooltip tooltip-inline">Importer une vidéo</div>
+                <i class="fas fa-upload icon"></i> Lire une vidéo
             </label>
-
-            <button id="markIn" class="button"><i class="icon fas fa-arrow-right zoom"></i><span class="time-marker" id="inTime"> In 0</span><div class="tooltip tooltip-inline">Marquer "In" en sec</div></button>
-
-            <button id="markOut" class="button"><i class="icon fas fa-arrow-left zoom"></i><span class="time-marker" id="outTime"> Out 0</span><div class="tooltip tooltip-inline">Marquer "Out" en sec</div></button>
-
-            <button id="resetButton" class="button"><i class="icon fas fa-undo"></i><div class="tooltip tooltip-inline">Reset</div></button>
+            <button id="markIn" class="button">
+                <i class="fas fa-arrow-right icon"></i><span class="bouton" id="inTime">In 0.0</span>
+            </button>
+            <button id="markOut" class="button">
+                <i class="fas fa-arrow-left icon"></i><span class="bouton" id="outTime">Out 0.0</span>
+            </button>
+            <button id="resetButton" class="button">
+                <i class="fas fa-undo icon"></i> Reset
+            </button>
         </div>
-
     </div>
 
 <script>
@@ -269,15 +191,16 @@
     const videoInput = document.getElementById('videoInput');
     const markInButton = document.getElementById('markIn');
     const markOutButton = document.getElementById('markOut');
+    const inThumbnail = document.getElementById('inThumbnail');
+    const outThumbnail = document.getElementById('outThumbnail');
     const inTimeSpan = document.getElementById('inTime');
     const outTimeSpan = document.getElementById('outTime');
-    const markedDurationText = document.getElementById('markedDurationText');
     const resetButton = document.getElementById('resetButton');
     const ratioButtons = document.querySelectorAll('.ratio-button');
     let inTime = 0;
     let outTime = 0;
 
-    videoInput.addEventListener('change', () => {
+    videoInput.addEventListener('change', function() {
         const file = videoInput.files[0];
         if (file) {
             const objectURL = URL.createObjectURL(file);
@@ -285,45 +208,37 @@
             video.load();
             inTime = 0;
             outTime = video.duration;
-            updateMarkedDuration();
         }
     });
 
-    markInButton.addEventListener('click', () => {
+    markInButton.addEventListener('click', function() {
         inTime = video.currentTime;
-        inTimeSpan.textContent = ` In ${formatTime(inTime)}`;
-        updateMarkedDuration();
-        markInButton.querySelector('.icon').classList.add('zoomed');
-        setTimeout(() => {
-            markInButton.querySelector('.icon').classList.remove('zoomed');
-        }, 300);
+        inTimeSpan.textContent = `In ${formatTime(inTime)}`;
+        captureThumbnail(inThumbnail);
     });
 
-    markOutButton.addEventListener('click', () => {
+    markOutButton.addEventListener('click', function() {
         outTime = video.currentTime;
-        outTimeSpan.textContent = ` Out ${formatTime(outTime)}`;
-        updateMarkedDuration();
-        markOutButton.querySelector('.icon').classList.add('zoomed');
-        setTimeout(() => {
-            markOutButton.querySelector('.icon').classList.remove('zoomed');
-        }, 300);
+        outTimeSpan.textContent = `Out ${formatTime(outTime)}`;
+        captureThumbnail(outThumbnail);
     });
 
-    resetButton.addEventListener('click', () => {
+    resetButton.addEventListener('click', function() {
         inTime = 0;
         outTime = 0;
-        inTimeSpan.textContent = ' In 0';
-        outTimeSpan.textContent = ' Out 0';
-        updateMarkedDuration();
+        inTimeSpan.textContent = 'In 0.0';
+        outTimeSpan.textContent = 'Out 0.0';
+        inThumbnail.style.display = 'none';
+        outThumbnail.style.display = 'none';
+        video.pause();
+        video.currentTime = 0;
     });
 
-
-    ratioButtons.forEach(button => {
-        button.addEventListener('click', () => {
+    ratioButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
             adjustVideoContainerSize(button.id);
         });
     });
-
 
     function adjustVideoContainerSize(ratioId) {
         const videoContainer = document.getElementById('video-container');
@@ -335,10 +250,9 @@
         };
         const ratio = aspectRatios[ratioId];
         const maxWidth = 640;
-        const maxHeight = 360; 
+        const maxHeight = 360;
         let newWidth = maxWidth;
         let newHeight = newWidth / ratio;
-
 
         if (newHeight > maxHeight) {
             newHeight = maxHeight;
@@ -348,7 +262,6 @@
         videoContainer.style.width = `${newWidth}px`;
         videoContainer.style.height = `${newHeight}px`;
         videoContainer.style.overflow = 'hidden';
-        
 
         video.style.maxWidth = `${maxWidth}px`;
         video.style.maxHeight = `${maxHeight}px`;
@@ -356,19 +269,34 @@
         video.style.height = 'auto';
     }
 
+    function captureThumbnail(canvas) {
+        const context = canvas.getContext('2d');
+        if (video.readyState === 4) {
+            const videoRatio = video.videoWidth / video.videoHeight;
+            const canvasRatio = canvas.width / canvas.height;
+            let drawWidth, drawHeight, dx, dy;
 
-    function updateMarkedDuration() {
-        const duration = outTime - inTime;
-        markedDurationText.textContent = formatTime(duration);
+            if (canvasRatio < videoRatio) {
+                drawWidth = canvas.width;
+                drawHeight = drawWidth / videoRatio;
+                dx = 0;
+                dy = (canvas.height - drawHeight) / 2;
+            } else {
+                drawHeight = canvas.height;
+                drawWidth = drawHeight * videoRatio;
+                dx = (canvas.width - drawWidth) / 2;
+                dy = 0;
+            }
+
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(video, dx, dy, drawWidth, drawHeight);
+            canvas.style.display = 'block';
+        }
     }
-
 
     function formatTime(seconds) {
-        return Math.floor(seconds).toString();
+        return seconds.toFixed(1); // 
     }
 </script>
-
-
-
 </body>
 </html>
