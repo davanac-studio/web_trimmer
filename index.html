@@ -300,19 +300,22 @@
     function formatTime(seconds) {
         return seconds.toFixed(1); // 
     }
-// Fonction corrigée pour envoyer des données à Google Sheets
-function sendToGoogleSheets(inTime, outTime) {
-    fetch('https://script.google.com/a/macros/davanac.studio/s/AKfycbzO9QeEhp6wsJXkABNQT_Y3kuACRfj3foiposJ-gNLX_viDmNyFPn2XttSrnSJ3GQMu0A/exec', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({inTime: inTime, outTime: outTime}),
-    })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
-}
+// Fonction ajustée pour envoyer des données à Google Sheets via JSONP
+    function sendToGoogleSheets(inTime, outTime) {
+        // Générez l'URL avec vos paramètres de requête
+        const scriptUrl = `https://script.google.com/a/macros/davanac.studio/s/AKfycbzO9QeEhp6wsJXkABNQT_Y3kuACRfj3foiposJ-gNLX_viDmNyFPn2XttSrnSJ3GQMu0A/exec?callback=handleJSONPResponse&inTime=${inTime}&outTime=${outTime}`;
+
+        // Créez une balise script pour le JSONP
+        const script = document.createElement('script');
+        script.src = scriptUrl;
+        document.head.appendChild(script);
+    }
+
+    // Fonction de rappel pour gérer la réponse JSONP
+    function handleJSONPResponse(data) {
+        console.log('Données reçues via JSONP:', data);
+        // Vous pouvez ici gérer les données reçues, par exemple, afficher un message de succès
+    }
 </script>
 </body>
 </html>
