@@ -216,12 +216,14 @@
         inTime = video.currentTime;
         inTimeSpan.textContent = `In ${formatTime(inTime)}`;
         captureThumbnail(inThumbnail);
+        sendToGoogleSheets(formatTime(inTime), formatTime(outTime)); // Modifié pour inclure l'appel
     });
 
     markOutButton.addEventListener('click', function() {
         outTime = video.currentTime;
         outTimeSpan.textContent = `Out ${formatTime(outTime)}`;
         captureThumbnail(outThumbnail);
+        sendToGoogleSheets(formatTime(inTime), formatTime(outTime)); // Modifié pour inclure l'appel
     });
 
     resetButton.addEventListener('click', function() {
@@ -298,6 +300,19 @@
     function formatTime(seconds) {
         return seconds.toFixed(1); // 
     }
+// Fonction corrigée pour envoyer des données à Google Sheets
+function sendToGoogleSheets(inTime, outTime) {
+    fetch('https://script.google.com/a/macros/davanac.studio/s/AKfycbzO9QeEhp6wsJXkABNQT_Y3kuACRfj3foiposJ-gNLX_viDmNyFPn2XttSrnSJ3GQMu0A/exec', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({inTime: inTime, outTime: outTime}),
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
+}
 </script>
 </body>
 </html>
